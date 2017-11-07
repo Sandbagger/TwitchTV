@@ -46,8 +46,11 @@ function fetchUser(user){
 			logo: combined[0].logo,
 		}			
 		console.log(combined[0])
+		console.log(combined[1])
 		if (combined[1].stream !== null){
-			user.status = "Online";
+			user.status = "Watch Now!";
+			user.info = combined[1].stream.channel.game;
+			user.viewers = combined[1].stream.channel.viewers;
 		} else{
 			user.status = "Offline";
 		};
@@ -72,15 +75,22 @@ function createUserDiv(user){
     var innerDiv = document.createElement("div");
     innerDiv.className = "info";
     div.appendChild(innerDiv);
+
     var header = document.createElement("header"); 
     header.textContent = user.name;
     innerDiv.appendChild(header);
+    
     var p = document.createElement("p");
+    p.textContent = user.info + ' ' + "Viewers: " + user.viewers;
     innerDiv.appendChild(p);
 
     var i = document.createElement("i");
+    if (user.status === "Watch Now!"){
+    i.setAttribute('class', "fa fa-play-circle-o fa-3x")
+	}else{i.setAttribute('class', "fa fa-bed fa-3x");
+	img.style.opacity = "0.3"};
     div.appendChild(i);
-        i.textContent = user.status;
+        
     
 
     var main = document.getElementsByTagName("main")[0];
@@ -97,7 +107,7 @@ function clickOnline(){
 	cleanMain();
 
 	userOb.forEach(function(user){
-		if (user.status === "Online"){
+		if (user.status === "Watch Now!"){
 			createUserDiv(user);
 		}
 	})

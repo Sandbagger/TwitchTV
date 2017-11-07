@@ -4,6 +4,8 @@ body {
 	align-items: center;
 	justify-content: center;
 	height: 100%;
+	background-color: #4ABDAC;
+	font-family: 'Lato', sans-serif;
 }
 
 .tabs {
@@ -21,6 +23,7 @@ main {
 	order: 2;
 	flex-direction: column;
 	width: 60%;
+	background-color: white;
 }
 
 img {
@@ -32,10 +35,14 @@ img {
 .user{
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
+	justify-content: space-around;
 	align-items: center;
 	margin-top: 2%;
 	margin-bottom: 2%;
+}
+
+.user header{
+	font-size: 3em;
 }
 
 .info{
@@ -48,4 +55,8 @@ button {
 	font-size: 3em;
 	width: 25%;
 	border-radius: 8px 8px 8px 8px;
+}
+
+.fa-bed{
+	color: black;
 }
