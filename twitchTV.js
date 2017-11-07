@@ -1,116 +1,122 @@
-var module = (function(){
-	var storedValue = [];
-	var storedStatus = [];
-	var featured = [];
-	var users = ["ESL_SC2", "OgamingSC2", "cretetion", "freecodecamp", "storbeck", "habathcx", "RobotCaleb", "noobs2ninjas"];
 
-console.log("got to module");
-	return {
-		store: function(val){
+document.addEventListener('DOMContentLoaded', addEventListeners);
+
+function addEventListeners() {
+    var onlineButton = document.getElementById("online");
+    var offlineButton = document.getElementById("offline");
+    var allButton = document.getElementById("all");
+    onlineButton.addEventListener("click", clickOnline);
+    offlineButton.addEventListener("click", clickOffline);
+    allButton.addEventListener("click", clickAll);
+}
+
+
+
+var users = ["ESL_SC2", "OgamingSC2", "cretetion", "freecodecamp", "habathcx", "RobotCaleb", "noobs2ninjas", "twitchpresents"].forEach(fetchUser);
+var userOb = [];
+
+
+
+function fetchUser(user){
+
+	Promise.all([
+	  fetch('https://wind-bow.glitch.me/twitch-api/users/' + user, {
+	    method: 'GET',
+	    mode: 'cors',
+	    headers: new Headers({
+	      'Content-Type': 'text/plain'
+	    })
+	  }).then(function (user) {
+	    return user.json();
+	  }),
+	  fetch('https://wind-bow.glitch.me/twitch-api/streams/' + user, {
+	    method: 'GET',
+	    mode: 'cors',
+	    headers: new Headers({
+	      'Content-Type': 'text/plain'
+	    })
+	  }).then(function (stream) {
+	    return stream.json();
+	  })
+	]).then(function (combined) {
 	
-			storedValue.push(val);
-			console.log("got to module.store");
-			module.updateDisplay();
-		},
+		user = {
+			name: combined[0].display_name,
+			id: combined[0]._id,
+			logo: combined[0].logo,
+		}			
+		console.log(combined[0])
+		if (combined[1].stream !== null){
+			user.status = "Online";
+		} else{
+			user.status = "Offline";
+		};
 
-		retrieve: function(){
-			return storedValue;
-		},
-		storeStatus: function(id){
-			storedStatus.push(id);
-			console.log("got to module.store");
-			
-		},
+	  return user;
+	}).then(function(user){
+		//create new div and append to main 
+    createUserDiv(user);
+    userOb.push(user);
+	})
+}
 
-		retrieveStatus: function(){
-			return storedStatus;
-		},
+function createUserDiv(user){
 
-		storeFeatured: function(data){
-			featured.push(data);
-			console.log("got to module.store");
-			module.addLiveUser()
-		},
+	var div = document.createElement("div");
+    div.className = "user";
+    
+    var img = document.createElement("img");
+    img.src = user.logo;
+    div.appendChild(img);
+    
+    var innerDiv = document.createElement("div");
+    innerDiv.className = "info";
+    div.appendChild(innerDiv);
+    var header = document.createElement("header"); 
+    header.textContent = user.name;
+    innerDiv.appendChild(header);
+    var p = document.createElement("p");
+    innerDiv.appendChild(p);
 
-		retrieveFeatured: function(){
-			return featured;
-		},
+    var i = document.createElement("i");
+    div.appendChild(i);
+        i.textContent = user.status;
+    
 
-		addLiveUser: function(){
-			liveUser = module.retrieveFeatured()[0]["featured"][0]["stream"]["channel"]["display_name"];
-			users.push(liveUser);
-			users.forEach(requestJSONP);
-		},
+    var main = document.getElementsByTagName("main")[0];
+    main.appendChild(div);
+}
 
-		returnUsers: function(){
-			return users;
-			
-		},
+function cleanMain(){
+	userDiv = document.querySelectorAll(".user");
+	userDiv.forEach(function(div){
+    	div.parentNode.removeChild(div)})
+}
 
+function clickOnline(){
+	cleanMain();
 
-		updateDisplay: function(){
-			/*splayArray();*/
-			displayUserInfo()
-
+	userOb.forEach(function(user){
+		if (user.status === "Online"){
+			createUserDiv(user);
 		}
-	}
-
-}());
-
-
-//Wait for DOM to load before adding event listener on button
-
-document.addEventListener('DOMContentLoaded', getLiveStream);
-
-
-function requestJSONP(user) {
-	//dynamically create a script tag
-	var scriptTag = document.createElement("script");
-	//set url with user defined search parameter
-	scriptTag.src = "https://wind-bow.gomix.me/twitch-api/users/눈꽃눈꽃" + user + "?callback=module.store";
-	//append tag to head element 
-	document.getElementsByTagName("head")[0].appendChild(scriptTag);
-	console.log("got to JSONP");
-};
-
-function requestStreamStatus(id) {
-	//dynamically create a script tag
-	var scriptTag = document.createElement("script");
-	//set url with user defined search parameter
-	scriptTag.src = "https://wind-bow.gomix.me/twitch-api/streams/" + id + "?callback=module.storeStatus";
-	//append tag to head element 
-	document.getElementsByTagName("head")[0].appendChild(scriptTag);
-	console.log("got to streamStatus");
-};
-
-function getLiveStream(){
-	//dynamically create a script tag
-	var scriptTag = document.createElement("script");
-	//set url with user defined search parameter
-	scriptTag.src = "https://wind-bow.glitch.me/twitch-api/streams/featured?callback=module.storeFeatured";
-	//append tag to head element 
-	document.getElementsByTagName("head")[0].appendChild(scriptTag);
-	console.log("got to getLiveStream");
+	})
 }
 
+function clickOffline(){
+	cleanMain();
 
-
-function dispalyjsonpPayload(){
-var header = document.getElementsByTagName("header");
-header.textContent = module.retrieve();
+	userOb.forEach(function(user){
+		if (user.status === "Offline"){
+			createUserDiv(user);
+		}
+	})
 }
 
-function displayUserInfo(){
-	var username =  Array.prototype.slice.call(document.querySelectorAll(".user p"));
-	var userImage = Array.prototype.slice.call(document.querySelectorAll(".user IMG"));
-	var userInfo = module.retrieve();
+function clickAll(){
+	cleanMain();
 
-	for (var i = 0; 0 < userInfo.length; i++){
-		username[i].textContent = userInfo[i].display_name;
-		userImage[i].src = userInfo[i].logo;
-		console.log(userInfo[i]["_id"]);
-		requestStreamStatus(userInfo[i]["_id"]);
-	}
-
+	userOb.forEach(function(user){
+			createUserDiv(user);
+	})
 }
-
