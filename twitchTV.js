@@ -11,7 +11,6 @@ function addEventListeners() {
 }
 
 
-
 var users = ["ESL_SC2", "OgamingSC2", "cretetion", "freecodecamp", "habathcx", "RobotCaleb", "noobs2ninjas", "twitchpresents"].forEach(fetchUser);
 var userOb = [];
 
@@ -50,7 +49,8 @@ function fetchUser(user){
 		if (combined[1].stream !== null){
 			user.status = "Watch Now!";
 			user.info = combined[1].stream.channel.game;
-			user.viewers = combined[1].stream.channel.viewers;
+			user.viewers = combined[1].stream.viewers;
+			user.url = combined[1].stream.channel.url;
 		} else{
 			user.status = "Offline";
 		};
@@ -80,17 +80,28 @@ function createUserDiv(user){
     header.textContent = user.name;
     innerDiv.appendChild(header);
     
-    var p = document.createElement("p");
-    p.textContent = user.info + ' ' + "Viewers: " + user.viewers;
-    innerDiv.appendChild(p);
 
-    var i = document.createElement("i");
+    var eye = document.createElement("i");
+    if (user.status !== "Offline"){
+    	eye.setAttribute('class', "fa fa-eye fa-1x");
+    	eye.textContent = ' ' + user.viewers + ' - ' + user.info;
+	}
+
+     innerDiv.appendChild(eye);
+    
+     var i = document.createElement("i");
     if (user.status === "Watch Now!"){
-    i.setAttribute('class', "fa fa-play-circle-o fa-3x")
+    i.setAttribute('class', "fa fa-play-circle-o fa-4x")
 	}else{i.setAttribute('class', "fa fa-bed fa-3x");
 	img.style.opacity = "0.3"};
-    div.appendChild(i);
+    
         
+
+     var a = document.createElement("a");
+     a.setAttribute("href", user.url);
+     a.appendChild(i);
+     
+     div.appendChild(a);
     
 
     var main = document.getElementsByTagName("main")[0];

@@ -12,7 +12,7 @@ body {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-around;
 	order:1;
 	width: 60%;
 	background: blue;
@@ -59,4 +59,52 @@ button {
 
 .fa-bed{
 	color: black;
+}
+
+.statusDiv{
+	display: flex;
+	justify-content: space-between;
+	width: 80%;
+}
+
+.fa-eye{
+	margin-top: 3%;
+}
+
+button{
+	
+	background-color: white;
+	display: flex;
+	align-items: center;
+	padding-left: 1em;
+	margin-right: 1em;
+	margin-bottom: 1em;
+	transition: background-color 0.5s ease;
+	
+	 }
+button:hover {
+	opacity: 0.2;
+}
+
+.tabs{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: black;
+	height: 200px;
+	flex-shrink: <1>;
+}
+
+@media (min-width: 320px){
+	button{
+	height: 40%;
+	width: 20%;
+	font-size: 100%;
+}
+
+@media (min-width: 750px){
+	button{
+	height: 40%;
+	width: 20%;
+	font-size: 150%;
 }
