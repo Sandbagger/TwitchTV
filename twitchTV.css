@@ -22,8 +22,9 @@ main {
 	display: flex;
 	order: 2;
 	flex-direction: column;
-	width: 60%;
+	width: 50%;
 	background-color: white;
+	margin-bottom: 5%;
 }
 
 img {
@@ -35,10 +36,9 @@ img {
 .user{
 	display: flex;
 	flex-direction: row;
-	justify-content: space-around;
+	justify-content: space-between;
 	align-items: center;
-	margin-top: 2%;
-	margin-bottom: 2%;
+	margin: 2% 2% 2% 2%;
 }
 
 .user header{
@@ -90,7 +90,7 @@ button:hover {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background-color: black;
+	background-color: #4ABDAC;
 	height: 200px;
 	flex-shrink: <1>;
 }

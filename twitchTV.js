@@ -92,17 +92,19 @@ function createUserDiv(user){
      var i = document.createElement("i");
     if (user.status === "Watch Now!"){
     i.setAttribute('class', "fa fa-play-circle-o fa-4x")
-	}else{i.setAttribute('class', "fa fa-bed fa-3x");
-	img.style.opacity = "0.3"};
-    
-        
 
-     var a = document.createElement("a");
+    var a = document.createElement("a");
      a.setAttribute("href", user.url);
      a.appendChild(i);
      
      div.appendChild(a);
+
+	}else{i.setAttribute('class', "fa fa-bed fa-3x");
+	img.style.opacity = "0.3"};
+	div.appendChild(i);
     
+       
+
 
     var main = document.getElementsByTagName("main")[0];
     main.appendChild(div);
