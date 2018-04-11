@@ -90,8 +90,10 @@ function createUserDiv(user){
      innerDiv.appendChild(eye);
     
      var i = document.createElement("i");
-    if (user.status === "Watch Now!"){
-    i.setAttribute('class', "fa fa-play-circle-o fa-4x")
+       var a = document.createElement("a");
+    if (user.status !== "Offline"){
+    i.setAttribute("href", user.url);
+    i.setAttribute('class', "fa fa-play-circle-o fa-3x");
 
     var a = document.createElement("a");
      a.setAttribute("href", user.url);
@@ -103,8 +105,6 @@ function createUserDiv(user){
 	img.style.opacity = "0.3"};
 	div.appendChild(i);
     
-       
-
 
     var main = document.getElementsByTagName("main")[0];
     main.appendChild(div);
