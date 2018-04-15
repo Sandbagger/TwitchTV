@@ -66,7 +66,8 @@ function fetchUser(user){
 function createUserDiv(user){
 
 	var div = document.createElement("div");
-    div.className = "user";
+    div.className = "user hvr-float-shadow";
+  
     
     var img = document.createElement("img");
     img.src = user.logo;
@@ -88,32 +89,44 @@ function createUserDiv(user){
 	}
 
      innerDiv.appendChild(eye);
-    
-     var i = document.createElement("i");
+
+    var i = document.createElement("i");
        var a = document.createElement("a");
+       var button = document.createElement('button');
     if (user.status !== "Offline"){
-    i.setAttribute("href", user.url);
-    i.setAttribute('class', "fa fa-play-circle-o fa-3x");
+   
+    	var div2 = document.createElement("div")
 
-    var a = document.createElement("a");
-     a.setAttribute("href", user.url);
-     a.appendChild(i);
+
+    a.href = user.url;
+    a.target = "_blank";
+
+    i.className = "fa fa-play-circle-o fa-3x";
+
      
-     div.appendChild(a);
+     div.appendChild(i);
+      div.className = "user hvr-forward fade-in";
+	}else{ 
+		 var i = document.createElement("i");
+		i.setAttribute('class', "fa fa-bed fa-3x");
+		img.style.opacity = "0.3";
+		div.appendChild(i);
+		 div.className = "user fade-in";
+		 div.opacity = 0.5;
+	}
 
-	}else{i.setAttribute('class', "fa fa-bed fa-3x");
-	img.style.opacity = "0.3"};
-	div.appendChild(i);
-    
+	a.appendChild(div)
 
     var main = document.getElementsByTagName("main")[0];
-    main.appendChild(div);
+    main.appendChild(a);
 }
 
 function cleanMain(){
 	userDiv = document.querySelectorAll(".user");
 	userDiv.forEach(function(div){
-    	div.parentNode.removeChild(div)})
+		div.style.opacity = '0';
+    	div.parentNode.removeChild(div)});
+    	 	
 }
 
 function clickOnline(){
